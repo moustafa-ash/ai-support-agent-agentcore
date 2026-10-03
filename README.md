@@ -39,13 +39,17 @@ authentication, refund persistence, or payment processing.
 From `starter/`, configure and deploy using the Python Starter Toolkit:
 
 ```bash
-uv run agentcore configure --entrypoint main.py --name ai_support_agent --deployment-type direct_code_deploy --runtime PYTHON_3_13 --disable-memory --non-interactive --region us-east-1 --idle-timeout 60 --max-lifetime 600
+uv run agentcore configure --entrypoint main.py --name ai_support_agent --deployment-type direct_code_deploy --runtime PYTHON_3_13 --disable-memory --non-interactive --region us-east-1 --idle-timeout 60 --max-lifetime 600 --requirements-file requirements-runtime.txt
 uv run python ../scripts/deploy.py
 uv run setup_permissions.py
 uv run agentcore invoke '{"prompt":"Can you track order ORD-001?","customer_id":"CUST-123","session_id":"t1"}'
 ```
 
 ## Request interface
+
+If the course VM's system Python lacks SQLite, create the environment with
+`UV_PROJECT_ENVIRONMENT=.venv-managed uv sync --python 3.13 --managed-python --locked`
+and keep that variable set for subsequent `uv run` commands.
 
 `prompt` is a required non-empty string. `customer_id` and `session_id` are
 optional non-empty strings. Missing session IDs are UUIDs; anonymous actors are
