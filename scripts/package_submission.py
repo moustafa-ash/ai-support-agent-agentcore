@@ -9,7 +9,7 @@ root = Path(__file__).resolve().parents[1]
 files = subprocess.check_output(["git", "ls-files", "-z"], cwd=root).decode().split("\0")
 files = [p for p in files if p and (root / p).is_file()]
 for name in files:
-    if any(part in {"private", ".aws", ".venv", ".cache"} for part in Path(name).parts):
+    if any(part in {"private", ".aws", ".cache"} or part.startswith(".venv") for part in Path(name).parts):
         raise RuntimeError("Private path is tracked; refuse to package")
     if Path(name).name in {"runtime_settings.json", "infrastructure-state.json"}:
         raise RuntimeError("Deployment metadata is tracked; refuse to package")

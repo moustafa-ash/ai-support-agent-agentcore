@@ -48,8 +48,9 @@ uv run agentcore invoke '{"prompt":"Can you track order ORD-001?","customer_id":
 ## Request interface
 
 If the course VM's system Python lacks SQLite, create the environment with
-`UV_PROJECT_ENVIRONMENT=.venv-managed uv sync --python 3.13 --managed-python --locked`
-and keep that variable set for subsequent `uv run` commands.
+`UV_PROJECT_ENVIRONMENT=../.venv-cloud uv sync --python 3.13 --managed-python --locked`
+and keep that variable set for subsequent `uv run` commands. Keep virtual environments
+outside `starter/` because the toolkit's source packager excludes only `.venv` by name.
 
 `prompt` is a required non-empty string. `customer_id` and `session_id` are
 optional non-empty strings. Missing session IDs are UUIDs; anonymous actors are
