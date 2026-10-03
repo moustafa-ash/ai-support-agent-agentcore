@@ -1,7 +1,7 @@
 [project]
 name = "csai"
 version = "0.1.0"
-description = "Add your description here"
+description = "Udacity fictional-store AI support agent with Amazon Bedrock AgentCore and Strands"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

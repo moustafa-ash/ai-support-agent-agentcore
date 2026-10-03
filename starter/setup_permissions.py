@@ -18,7 +18,7 @@ import yaml
 POLICY_NAME = "CustomerSupportIntegrations"
 
 
-def read_settings(source):
+def read_settings(source, overrides=None):
     settings = {}
     for node in ast.parse(source).body:
         if isinstance(node, ast.Assign):
@@ -33,6 +33,7 @@ def read_settings(source):
                     settings[name] = ast.literal_eval(node.value)
                 except (ValueError, TypeError):
                     settings[name] = None
+    settings.update(overrides or {})
     patterns = {
         "KB_ID": r"[A-Za-z0-9]{10}",
         "MEMORY_ID": r"[A-Za-z][A-Za-z0-9_]{0,99}-[A-Za-z0-9]{10}",
@@ -70,6 +71,16 @@ def build_policy(partition, account, settings):
     return {
         "Version": "2012-10-17",
         "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "bedrock-agentcore:StartCodeInterpreterSession",
+                    "bedrock-agentcore:StopCodeInterpreterSession",
+                    "bedrock-agentcore:GetCodeInterpreterSession",
+                    "bedrock-agentcore:InvokeCodeInterpreter",
+                ],
+                "Resource": f"arn:{partition}:bedrock-agentcore:{region}:aws:code-interpreter/aws.codeinterpreter.v1",
+            },
             {
                 "Effect": "Allow",
                 "Action": "bedrock:Retrieve",
@@ -121,10 +132,13 @@ def main(argv=None):
     parser.add_argument("--main", type=Path, default=root / "main.py", help="Agent source containing resource IDs")
     parser.add_argument("--agent", help="Agent name; defaults to default_agent in the deployment config")
     parser.add_argument("--profile", help="Optional AWS CLI profile; otherwise use the normal AWS credentials")
+    parser.add_argument("--settings", type=Path, default=root / "runtime_settings.json",
+                        help="Private JSON resource settings; never store AWS credentials here")
     parser.add_argument("--dry-run", action="store_true", help="Print the policy without calling AWS")
     args = parser.parse_args(argv)
     try:
-        settings = read_settings(args.main.read_text(encoding="utf-8"))
+        overrides = json.loads(args.settings.read_text(encoding="utf-8")) if args.settings.exists() else {}
+        settings = read_settings(args.main.read_text(encoding="utf-8"), overrides)
         config = yaml.safe_load(args.config.read_text(encoding="utf-8"))
         name, partition, account, role, role_name, runtime = deployment(config, args.agent, settings["REGION"])
         policy = build_policy(partition, account, settings)

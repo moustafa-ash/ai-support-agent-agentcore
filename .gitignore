@@ -1,0 +1,15 @@
+.venv/
+.cache/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.aws/
+.bedrock_agentcore*
+runtime_settings.json
+infrastructure-state.json
+private/
+submission.zip
+*.log
+!evidence/*.log
