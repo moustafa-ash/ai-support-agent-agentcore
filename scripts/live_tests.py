@@ -27,6 +27,13 @@ def sanitize(text):
     text = re.sub(r"\b\d{12}\b", "[account redacted]", text)
     text = re.sub(r"https://[^\s\"']*\.gateway\.bedrock-agentcore\.[^\s\"']+", "[Gateway endpoint redacted]", text)
     text = re.sub(r"\b(?:ASIA|AKIA)[A-Z0-9]{16}\b", "[AWS key redacted]", text)
+    text = re.sub(r"https?://[^\s\"']*\.amazonaws\.com[^\s\"']*", "[AWS endpoint redacted]", text)
+    text = re.sub(r"ai_support_agent-[A-Za-z0-9]+", "[Runtime ID redacted]", text)
+    settings = ROOT / "starter/runtime_settings.json"
+    if settings.exists():
+        for key, value in json.loads(settings.read_text()).items():
+            if key in {"GATEWAY_URL", "KB_ID", "MEMORY_ID"} and value:
+                text = text.replace(value, f"[{key} redacted]")
     return text
 
 def main():
