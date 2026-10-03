@@ -1,0 +1,13 @@
+Payload: {"prompt": "Hi, I am Jane. I prefer concise responses.", "customer_id": "CUST-123", "session_id": "s-A-final"}
+CLI exit code: 0
+╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
+│ Request ID: eebc9735-3f41-4269-872d-eb304e3bd842                                                                                                                                                               │
+│ ARN: [AWS resource ARN redacted]                                                                                                                      │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+Hello Jane! I have your Gold membership and order details ready. How can I assist you today?

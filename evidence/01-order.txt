@@ -1,0 +1,13 @@
+Payload: {"prompt": "Can you track order ORD-001?", "customer_id": "CUST-123", "session_id": "t1-final"}
+CLI exit code: 0
+╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
+│ Request ID: 411e5bba-e457-4a51-a170-b4afb53b6267                                                                                                                                                               │
+│ ARN: [AWS resource ARN redacted]                                                                                                                      │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+ORD-001 is shipped via UPS (tracking TRK987654321), expected to arrive October 5, 2026. The order contains 1 Wireless Headphones Pro for $89.99.

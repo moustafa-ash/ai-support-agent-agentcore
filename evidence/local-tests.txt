@@ -1,13 +1,14 @@
 Validation: LOCAL OFFLINE ONLY
-Date: 2026-10-03 (Africa/Cairo)
+Date: 2026-10-04 (Africa/Cairo)
 Command: starter/.venv/Scripts/python.exe -m unittest discover -s tests -v
-Result: 12 tests passed (last run after managed-search configuration change).
+Result: 13 tests passed (last run after exact financial-response rendering change).
 
 Verified: request validation, entrypoint wiring and cleanup, current/legacy memory
 namespaces, both strategies, actor isolation, original-query persistence, tool-result
 exclusion, RAG guard/join/empty/error handling, exact Gold arithmetic, redemption
 boundaries, category earning rates, sandbox response parsing and context cleanup,
-tier-only fallback, invalid inputs, private resource settings, scoped permission policy.
+tier-only fallback, invalid inputs, private resource settings, scoped permission policy,
+and exact financial-response rendering with matching memory persistence.
 
 AWS, Bedrock model, and MCP boundaries are mocked. Generated Python calculation
 code is executed locally. No claim of cloud deployment or live service invocation

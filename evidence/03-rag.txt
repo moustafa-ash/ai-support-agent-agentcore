@@ -1,0 +1,19 @@
+Payload: {"prompt": "What are the benefits of the Platinum loyalty tier?", "customer_id": "CUST-123", "session_id": "t3-final"}
+CLI exit code: 0
+╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
+│ Request ID: c18154e1-dbcf-46ac-8058-c9cc49538915                                                                                                                                                               │
+│ ARN: [AWS resource ARN redacted]                                                                                                                      │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+The Platinum loyalty tier offers these benefits:
+
+- **Free same-day shipping** on eligible orders
+- **15% discount** on purchases
+- **Priority customer support** access
+
+Jane is currently a Gold member with 4,250 points, so she's just shy of reaching Platinum status (which requires 5,000+ points).

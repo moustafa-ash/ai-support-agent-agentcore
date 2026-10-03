@@ -1,0 +1,32 @@
+Payload: {"prompt": "I am a Gold member with 4250 points. Calculate my discount on a $150 standard order.", "customer_id": "CUST-123", "session_id": "t5"}
+CLI exit code: 0
+╭────────────────────────────── ai_support_agent ──────────────────────────────╮
+│ Session: 2ed2e127-c3ea-4b66-a70d-e50be8a47b04                                │
+│ Request ID: 0b0fc14d-151f-4e20-8a1d-7a8516e862fe                             │
+│ ARN:                                                                         │
+│ [AWS resource ARN redacted] │
+│ Un6EFQ4W                                                                     │
+│ Logs: aws logs tail                                                          │
+│ /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT          │
+│ --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                 │
+│       aws logs tail                                                          │
+│ /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT          │
+│ --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h               │
+│ GenAI Dashboard:                                                             │
+│ https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-obser │
+│ vability/agent-core                                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+### Your Gold Member Discount Breakdown
+
+- **Points Redeemed:** 4,000 points  
+- **Points Discount:** $40.00  
+- **Gold Tier Discount:** 10% ($15.00)  
+- **Final Total:** $99.00  
+- **Total Savings:** $51.00  
+- **Points Earned on Purchase:** 99 points  
+- **Remaining Points Balance:** 349 points  
+
+Your $150 standard order is reduced to **$99.00** after applying both your 
+points redemption and Gold tier discount, saving you a total of **$51.00**.

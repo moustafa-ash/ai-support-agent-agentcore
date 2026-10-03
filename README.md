@@ -7,8 +7,9 @@ See [starter provenance](ATTRIBUTION.md) and [original instructions](docs/udacit
 
 ## Current validation
 
-The implementation passes 12 offline integration-boundary tests. Live deployment
-and all six AWS scenarios are pending; offline tests do not establish cloud success.
+The implementation passes 13 offline integration-boundary tests. All six required
+scenarios also passed live in Udacity's AWS sandbox, with conversation output and
+CloudWatch tool traces. The deployed source is commit `8833789`.
 See [evidence](evidence/README.md) for the latest status.
 
 ## Local setup and tests
@@ -68,5 +69,6 @@ amounts and persist that same text. This prevents model paraphrases from changin
 
 The approved project spending limit is $15; reported AWS costs can lag. Resources
 are to remain available for user review, so charges can continue afterward.
-Do not submit to Udacity automatically. Retain logs for six live scenarios and a
-200–400 word reflection. Follow the teardown checklist after review.
+The review bundle is `submission.zip`, created with `python scripts/package_submission.py`.
+It includes sanitized evidence, the rubric checklist, and a 340-word reflection.
+No Udacity submission has been made. Follow the teardown checklist after review.

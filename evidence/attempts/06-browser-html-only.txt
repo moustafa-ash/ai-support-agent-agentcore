@@ -1,0 +1,22 @@
+Payload: {"prompt": "Go to https://www.udacity.com and tell me the page title.", "customer_id": "CUST-123", "session_id": "t6"}
+CLI exit code: 0
+╭────────────────────────────── ai_support_agent ──────────────────────────────╮
+│ Session: 2ed2e127-c3ea-4b66-a70d-e50be8a47b04                                │
+│ Request ID: ebe9fbd0-a021-416c-8ee4-8bc5221305f5                             │
+│ ARN:                                                                         │
+│ [AWS resource ARN redacted] │
+│ Un6EFQ4W                                                                     │
+│ Logs: aws logs tail                                                          │
+│ /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT          │
+│ --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                 │
+│       aws logs tail                                                          │
+│ /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT          │
+│ --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h               │
+│ GenAI Dashboard:                                                             │
+│ https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-obser │
+│ vability/agent-core                                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+The page title of https://www.udacity.com is "Udacity: Online Courses & 
+Nanodegrees - Learn Skills at Scale".

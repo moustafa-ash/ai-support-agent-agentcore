@@ -1,0 +1,13 @@
+Payload: {"prompt": "Do you remember my name and communication preference?", "customer_id": "CUST-123", "session_id": "s-B-final"}
+CLI exit code: 0
+╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
+│ Request ID: 07e5946f-5592-4eaf-9864-8fd64cb22602                                                                                                                                                               │
+│ ARN: [AWS resource ARN redacted]                                                                                                                      │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+Yes, Jane. I remember you prefer concise responses.

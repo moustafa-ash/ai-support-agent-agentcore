@@ -1,0 +1,30 @@
+Payload: {"prompt": "Do you remember my name and communication preference?", "customer_id": "CUST-123", "session_id": "s-B"}
+CLI exit code: 0
+╭────────────────────────────── ai_support_agent ──────────────────────────────╮
+│ Session: 2ed2e127-c3ea-4b66-a70d-e50be8a47b04                                │
+│ Request ID: fa8bd2b7-1834-428a-aab6-d86d56e0c070                             │
+│ ARN:                                                                         │
+│ [AWS resource ARN redacted] │
+│ Un6EFQ4W                                                                     │
+│ Logs: aws logs tail                                                          │
+│ /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT          │
+│ --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                 │
+│       aws logs tail                                                          │
+│ /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT          │
+│ --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h               │
+│ GenAI Dashboard:                                                             │
+│ https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-obser │
+│ vability/agent-core                                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+I don't have memory of previous interactions or your personal details, including
+your name or communication preferences. Each conversation starts fresh, and I 
+can't retain information between sessions. 
+
+If you'd like me to remember preferences for this session, you can share them 
+now and I'll keep them in context for our current conversation. For persistent 
+preferences across sessions, you'd need to set those up through your account 
+settings if available.
+
+How can I assist you today?

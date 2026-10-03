@@ -1,0 +1,20 @@
+Payload: {"prompt": "I am a Gold member with 4250 points. Calculate my discount on a $150 standard order.", "customer_id": "CUST-123", "session_id": "t5-review"}
+CLI exit code: 0
+╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Session: 587c63d8-75c7-4d2b-b061-bda4894d8a8b                                                                                                                                                                  │
+│ Request ID: 02f1209c-d876-482b-acac-97d518e74240                                                                                                                                                               │
+│ ARN: [AWS resource ARN redacted]                                                                                                                      │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Response:
+Here's your Gold member discount breakdown for a $150 standard order:
+
+- **Points redeemed:** 4,000 points ($40 discount)
+- **Gold tier discount:** 10% ($15 discount)
+- **Total savings:** $55
+- **Final total:** $95
+
+You've also earned 95 loyalty points on this purchase, leaving you with 349 points remaining.
