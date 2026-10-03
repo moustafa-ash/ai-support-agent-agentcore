@@ -3,6 +3,7 @@
 Stores raw output privately and sanitized copies in evidence/. These outputs need
 semantic review and matching CloudWatch tool evidence before marking scenarios passed.
 """
+import argparse
 import json
 from pathlib import Path
 import re
@@ -29,13 +30,21 @@ def sanitize(text):
     return text
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--only", nargs="+", choices=[s[0] for s in SCENARIOS])
+    parser.add_argument("--session-suffix", default="")
+    args = parser.parse_args()
     private = ROOT / "private/live"
     public = ROOT / "evidence"
     private.mkdir(parents=True, exist_ok=True)
     public.mkdir(exist_ok=True)
     for name, prompt, session in SCENARIOS:
+        if args.only and name not in args.only:
+            continue
         if name == "04-memory-b":
-            time.sleep(45)
+            # Extraction is asynchronous; the sandbox took about 63 seconds.
+            time.sleep(90)
+        session += args.session_suffix
         payload = dict(prompt=prompt, customer_id="CUST-123", session_id=session)
         print("Running " + name, flush=True)
         result = subprocess.run(["agentcore", "invoke", json.dumps(payload)], cwd=ROOT / "starter",
