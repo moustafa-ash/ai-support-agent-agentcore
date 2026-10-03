@@ -146,7 +146,11 @@ def main():
     wait(lambda: bedrock.get_knowledge_base(knowledgeBaseId=state["kb_id"])["knowledgeBase"], desired="ACTIVE")
     if "data_source_id" not in state:
         result = bedrock.create_data_source(knowledgeBaseId=state["kb_id"], name="catalog", dataDeletionPolicy="DELETE",
-            dataSourceConfiguration={"type": "S3", "s3Configuration": {"bucketArn": "arn:aws:s3:::" + state["bucket"], "inclusionPrefixes": ["product_catalog.txt"]}})
+            dataSourceConfiguration={"type": "MANAGED_KNOWLEDGE_BASE_CONNECTOR", "managedKnowledgeBaseConnectorConfiguration": {
+                "connectorParameters": {"type": "S3", "version": "1", "connectionConfiguration": {
+                    "bucketName": state["bucket"], "bucketOwnerAccountId": account},
+                    "deletionProtectionConfiguration": {"enableDeletionProtection": False}}}},
+            vectorIngestionConfiguration={"parsingConfiguration": {"parsingStrategy": "SMART_PARSING"}})
         record("data_source_id", result["dataSource"]["dataSourceId"])
     if "ingestion_job" not in state:
         result = bedrock.start_ingestion_job(knowledgeBaseId=state["kb_id"], dataSourceId=state["data_source_id"])
