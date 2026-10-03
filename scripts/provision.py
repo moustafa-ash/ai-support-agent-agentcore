@@ -100,6 +100,16 @@ def main():
             pass
         api.create_deployment(restApiId=state["api_id"], stageName="prod")
         record("api_ready", True)
+    if "api_schema_ready" not in state:
+        resources = {r["path"]: r["id"] for r in api.get_resources(restApiId=state["api_id"], limit=500)["items"]}
+        for path, _ in routes:
+            try:
+                api.put_method_response(restApiId=state["api_id"], resourceId=resources[path], httpMethod="GET",
+                                        statusCode="200", responseModels={"application/json": "Empty"})
+            except api.exceptions.ConflictException:
+                pass
+        api.create_deployment(restApiId=state["api_id"], stageName="prod")
+        record("api_schema_ready", True)
     control = session.client("bedrock-agentcore-control")
     gateway_policy = {"Version": "2012-10-17", "Statement": [
         {"Effect": "Allow", "Action": "lambda:InvokeFunction", "Resource": state["refund_processor"]},
@@ -125,6 +135,11 @@ def main():
             credentialProviderConfigurations=[{"credentialProviderType": "GATEWAY_IAM_ROLE"}])
         record("refund_target", result["targetId"])
     for key in ("order_target", "refund_target"):
+        current = control.get_gateway_target(gatewayIdentifier=state["gateway_id"], targetId=state[key])
+        if current["status"] == "FAILED" and any("responses is missing" in reason for reason in current.get("statusReasons", [])):
+            control.update_gateway_target(gatewayIdentifier=state["gateway_id"], targetId=state[key],
+                name=current["name"], targetConfiguration=current["targetConfiguration"],
+                credentialProviderConfigurations=current["credentialProviderConfigurations"])
         wait(lambda key=key: control.get_gateway_target(gatewayIdentifier=state["gateway_id"], targetId=state[key]))
     s3 = session.client("s3")
     if "bucket" not in state:
