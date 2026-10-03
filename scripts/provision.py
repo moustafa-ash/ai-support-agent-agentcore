@@ -167,6 +167,8 @@ def main():
                     "deletionProtectionConfiguration": {"enableDeletionProtection": False}}}},
             vectorIngestionConfiguration={"parsingConfiguration": {"parsingStrategy": "SMART_PARSING"}})
         record("data_source_id", result["dataSource"]["dataSourceId"])
+    wait(lambda: bedrock.get_data_source(knowledgeBaseId=state["kb_id"],
+        dataSourceId=state["data_source_id"])["dataSource"], desired="AVAILABLE")
     if "ingestion_job" not in state:
         result = bedrock.start_ingestion_job(knowledgeBaseId=state["kb_id"], dataSourceId=state["data_source_id"])
         record("ingestion_job", result["ingestionJob"]["ingestionJobId"])
