@@ -116,7 +116,8 @@ def search_knowledge_base(query: str) -> str:
     if not KB_ID:
         return "Knowledge base not configured."
     try:
-        response = _bedrock_runtime.retrieve(knowledgeBaseId=KB_ID, retrievalQuery={"text": query})
+        response = _bedrock_runtime.retrieve(knowledgeBaseId=KB_ID, retrievalQuery={"text": query},
+            retrievalConfiguration={"managedSearchConfiguration": {"numberOfResults": 5}})
         chunks = [item.get("content", {}).get("text", "") for item in response.get("retrievalResults", [])]
         return "\n---\n".join(c for c in chunks if c.strip()) or "No relevant knowledge base information found."
     except Exception as exc:

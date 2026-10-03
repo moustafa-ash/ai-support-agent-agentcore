@@ -72,7 +72,8 @@ class IntegrationTests(unittest.TestCase):
             runtime.retrieve.return_value = {"retrievalResults": [{"content": {"text": "first"}},
                                                                 {"content": {"text": "second"}}]}
             self.assertEqual(agent.search_knowledge_base("q"), "first\n---\nsecond")
-            runtime.retrieve.assert_called_with(knowledgeBaseId="test", retrievalQuery={"text": "q"})
+            runtime.retrieve.assert_called_with(knowledgeBaseId="test", retrievalQuery={"text": "q"},
+                retrievalConfiguration={"managedSearchConfiguration": {"numberOfResults": 5}})
             runtime.retrieve.return_value = {"retrievalResults": []}
             self.assertIn("No relevant", agent.search_knowledge_base("q"))
             runtime.retrieve.side_effect = RuntimeError()
