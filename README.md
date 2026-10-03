@@ -39,7 +39,7 @@ authentication, refund persistence, or payment processing.
 From `starter/`, configure and deploy using the Python Starter Toolkit:
 
 ```bash
-uv run agentcore configure --entrypoint main.py --name ai_support_agent --deployment-type direct_code_deploy --runtime PYTHON_3_13 --disable-memory --non-interactive
+uv run agentcore configure --entrypoint main.py --name ai_support_agent --deployment-type direct_code_deploy --runtime PYTHON_3_13 --disable-memory --non-interactive --region us-east-1 --idle-timeout 60 --max-lifetime 600
 uv run python ../scripts/deploy.py
 uv run setup_permissions.py
 uv run agentcore invoke '{"prompt":"Can you track order ORD-001?","customer_id":"CUST-123","session_id":"t1"}'

@@ -112,14 +112,14 @@ def main():
         record("gateway_url", result["gatewayUrl"])
     wait(lambda: control.get_gateway(gatewayIdentifier=state["gateway_id"]))
     if "order_target" not in state:
-        result = control.create_gateway_target(gatewayIdentifier=state["gateway_id"], name="order_tracker",
+        result = control.create_gateway_target(gatewayIdentifier=state["gateway_id"], name="order-tracker",
             targetConfiguration={"mcp": {"apiGateway": {"restApiId": state["api_id"], "stage": "prod", "apiGatewayToolConfiguration": {
                 "toolFilters": [{"filterPath": path, "methods": ["GET"]} for path, _ in routes],
                 "toolOverrides": [{"name": operation, "path": path, "method": "GET", "description": operation.replace("_", " ")} for path, operation in routes]}}}},
             credentialProviderConfigurations=[{"credentialProviderType": "GATEWAY_IAM_ROLE"}])
         record("order_target", result["targetId"])
     if "refund_target" not in state:
-        result = control.create_gateway_target(gatewayIdentifier=state["gateway_id"], name="refund_processor",
+        result = control.create_gateway_target(gatewayIdentifier=state["gateway_id"], name="refund-processor",
             targetConfiguration={"mcp": {"lambda": {"lambdaArn": state["refund_processor"], "toolSchema": {
                 "inlinePayload": json.loads((ROOT / "starter/lambda/lambda_schema").read_text())}}}},
             credentialProviderConfigurations=[{"credentialProviderType": "GATEWAY_IAM_ROLE"}])

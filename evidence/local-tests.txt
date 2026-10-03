@@ -1,0 +1,22 @@
+Validation: LOCAL OFFLINE ONLY
+Date: 2026-10-03 (Africa/Cairo)
+Command: starter/.venv/Scripts/python.exe -m unittest discover -s tests -v
+Result: 12 tests passed (last run after managed-search configuration change).
+
+Verified: request validation, entrypoint wiring and cleanup, current/legacy memory
+namespaces, both strategies, actor isolation, original-query persistence, tool-result
+exclusion, RAG guard/join/empty/error handling, exact Gold arithmetic, redemption
+boundaries, category earning rates, sandbox response parsing and context cleanup,
+tier-only fallback, invalid inputs, private resource settings, scoped permission policy.
+
+AWS, Bedrock model, and MCP boundaries are mocked. Generated Python calculation
+code is executed locally. No claim of cloud deployment or live service invocation
+is made by this test evidence.
+
+Runtime: Python 3.13.13
+SDK versions from locked environment:
+bedrock-agentcore 1.24.0
+bedrock-agentcore-starter-toolkit 0.3.13
+strands-agents 1.57.2
+strands-agents-tools 0.8.9
+boto3 1.43.108
