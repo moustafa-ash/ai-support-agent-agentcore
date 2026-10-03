@@ -98,13 +98,50 @@ class MemoryHook(HookProvider):
         registry.add_callback(AfterInvocationEvent, self.save_support_interaction)
 
 class ToolEvidenceHook(HookProvider):
-    """Opt-in tool evidence for the fictional-data project tests."""
+    """Keep calculated amounts exact and optionally log fictional-data evidence."""
+    def __init__(self):
+        self.discount = None
+
     def after_tool(self, event: AfterToolCallEvent):
+        if event.tool_use["name"] == "calculate_loyalty_discount":
+            for block in event.result.get("content", []):
+                try:
+                    data = json.loads(block.get("text", ""))
+                except (ValueError, TypeError):
+                    continue
+                if isinstance(data, dict) and data.get("calculation_mode") in {"code_interpreter", "tier_only_fallback"}:
+                    self.discount = data
         if os.environ.get("PROJECT_EVIDENCE", "false").lower() == "true":
             logger.warning("TOOL_EVIDENCE %s", json.dumps({"name": event.tool_use["name"],
                            "result": event.result}, default=str))
+
+    def finalize_calculation(self, event: AfterInvocationEvent):
+        if self.discount is None or event.result is None:
+            return
+        data = self.discount
+        # Render the real tool values instead of letting a model rewrite money.
+        lines = [f"Calculation mode: {data['calculation_mode']}",
+                 f"Points redeemed: {data['points_redeemed']:,}",
+                 f"Tier discount: {data['tier_discount_pct']}% (${data['tier_discount']:.2f})",
+                 f"Final total: ${data['final_total']:.2f}",
+                 f"Remaining points: {data['remaining_points']:,}"]
+        if data['calculation_mode'] == 'code_interpreter':
+            lines += [f"Points discount: ${data['points_discount']:.2f}",
+                      f"Total savings: ${data['total_savings']:.2f}",
+                      f"Points earned on final paid total: {data['points_earned']:,}"]
+        else:
+            lines.append(data['warning'])
+        content = [{"text": "\n".join(lines)}]
+        event.result.message['content'] = content
+        # Keep persisted memory identical to the response shown to the customer.
+        for message in reversed(event.agent.messages):
+            if message.get('role') == 'assistant' and not any('toolUse' in b for b in message.get('content', [])):
+                message['content'] = content
+                break
+
     def register_hooks(self, registry: HookRegistry):
         registry.add_callback(AfterToolCallEvent, self.after_tool)
+        registry.add_callback(AfterInvocationEvent, self.finalize_calculation)
 
 @tool
 def search_knowledge_base(query: str) -> str:

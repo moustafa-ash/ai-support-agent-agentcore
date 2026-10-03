@@ -16,7 +16,10 @@ the provided Lambda handlers and their tool-routing logic unchanged. Recording
 resource identifiers after each successful creation made it possible to resume
 setup without recreating the Lambdas, API, and Gateway. I also checked current
 managed Knowledge Base documentation to select its connector and retrieval
-configuration rather than assuming the older vector configuration applied.
+configuration rather than assuming the older vector configuration applied. Live
+testing exposed another issue: Nova rewrote discount amounts even though Code
+Interpreter returned correct values. I added an invocation hook that renders the
+exact tool result into the final response and saves that same text to memory.
 
 In production, authentication and authorization would need more than a system
 prompt. The educational Gateway uses an unauthenticated endpoint and fictional

@@ -90,6 +90,25 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual([result[k] for k in ("points_redeemed", "tier_discount_pct", "final_total", "remaining_points")],
                          [4000, 10, 99, 349])
 
+    def test_final_response_preserves_tool_amounts_and_memory(self):
+        hook = agent.ToolEvidenceHook()
+        result = self.calculate(4250, "Gold", 150)
+        hook.after_tool(SimpleNamespace(tool_use={"name": "calculate_loyalty_discount"},
+            result={"content": [{"text": json.dumps(result)}]}))
+        final = message("assistant", "Wrong model paraphrase: $95 final and $15 tier discount")
+        state = SimpleNamespace(messages=[message("user", "Calculate my discount"), final])
+        response = SimpleNamespace(message=final)
+        hook.finalize_calculation(SimpleNamespace(agent=state, result=response))
+        text = agent._text(response.message)
+        self.assertIn("10% ($11.00)", text)
+        self.assertIn("Final total: $99.00", text)
+        self.assertIn("Remaining points: 349", text)
+        self.assertNotIn("$95", text)
+        client = self.memory()
+        agent.MemoryHook("CUST-123", "session", client, "memory").save_support_interaction(
+            SimpleNamespace(agent=state, result=response))
+        self.assertEqual(client.create_event.call_args.kwargs["messages"][-1], (text, "ASSISTANT"))
+
     def test_redemption_cap_zero_and_earning_rates(self):
         self.assertEqual(self.calculate(10000, "Silver", 15)["points_redeemed"], 500)
         self.assertEqual(self.calculate(499, "Gold", 10)["points_redeemed"], 0)

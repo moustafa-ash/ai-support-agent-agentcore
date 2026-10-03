@@ -61,6 +61,8 @@ the order. Tier discounts apply afterward; points accrue on the final paid amoun
 rounded down to whole points. The Gold/4,250 points/$150 example returns 4,000
 points redeemed, 10% tier discount, $99 paid, and 349 remaining points.
 Interpreter failures explicitly return a tier-only estimate without redemption or earning.
+Completed calculation responses use an invocation hook to render the tool's exact
+amounts and persist that same text. This prevents model paraphrases from changing money.
 
 ## Review and costs
 
