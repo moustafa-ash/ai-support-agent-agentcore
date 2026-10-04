@@ -155,13 +155,142 @@ class IntegrationTests(unittest.TestCase):
         with patch.multiple(agent, GATEWAY_URL="https://example.invalid/mcp", KB_ID="kb", MEMORY_ID="memory"), \
              patch.object(agent, "MemoryHook") as hook, patch.object(agent, "AgentCoreBrowser") as browser, \
              patch.object(agent, "MCPClient") as gateway, patch.object(agent, "Agent", side_effect=FakeAgent) as model_agent:
-            gateway.return_value.__enter__.return_value.list_tools_sync.return_value = ["gateway-tool"]
+            gateway_tool = SimpleNamespace(tool_name="order-tracker___get_order")
+            gateway.return_value.__enter__.return_value.list_tools_sync.return_value = [gateway_tool]
             result = asyncio.run(agent.invoke({"prompt": "Hi", "customer_id": "CUST-123"}))
             self.assertEqual(result, "Hello!")
             self.assertEqual(hook.call_args.args[0], "CUST-123")
             self.assertTrue(hook.call_args.args[1])
-            self.assertIn("gateway-tool", model_agent.call_args.kwargs["tools"])
+            self.assertIn(gateway_tool, model_agent.call_args.kwargs["tools"])
             browser.return_value.close.assert_called_once()
+
+    def test_gateway_setup_failures_are_safe_visible_and_close(self):
+        for stage in ("connection", "tool_loading"):
+            for error in (TimeoutError, ConnectionError, RuntimeError):
+                with self.subTest(stage=stage, error=error.__name__), \
+                     patch.multiple(agent, GATEWAY_URL="https://example.invalid/mcp", KB_ID="kb", MEMORY_ID="memory"), \
+                     patch.object(agent, "MemoryHook"), patch.object(agent, "AgentCoreBrowser") as browser, \
+                     patch.object(agent, "MCPClient") as factory, patch.object(agent, "Agent") as model_agent:
+                    gateway = factory.return_value.__enter__.return_value
+                    failing = factory.return_value.__enter__ if stage == "connection" else gateway.list_tools_sync
+                    failing.side_effect = error("SECRET_ENDPOINT_AND_TOKEN")
+                    with self.assertLogs("CSAI_Agent", level="INFO") as logs:
+                        result = asyncio.run(agent.invoke({"prompt": "Track my order"}))
+                    self.assertEqual(result, agent.GATEWAY_UNAVAILABLE)
+                    self.assertIn("GATEWAY_FAILURE", "\n".join(logs.output))
+                    self.assertNotIn("SECRET_ENDPOINT_AND_TOKEN", result + "\n".join(logs.output))
+                    model_agent.assert_not_called()
+                    browser.return_value.close.assert_called_once()
+                    if stage == "tool_loading":
+                        factory.return_value.__exit__.assert_called_once()
+
+    def test_gateway_discovery_empty_and_success_logs(self):
+        with patch.object(agent, "MCPClient") as factory:
+            gateway = factory.return_value.__enter__.return_value
+            gateway.list_tools_sync.return_value = []
+            with self.assertLogs("CSAI_Agent"), self.assertRaises(agent.GatewayUnavailable):
+                with agent.gateway_tools():
+                    self.fail("Empty tools must not invoke the model")
+            tool = SimpleNamespace(tool_name="order-tracker___get_order")
+            gateway.list_tools_sync.return_value = [tool]
+            with self.assertLogs("CSAI_Agent", level="INFO") as logs:
+                with agent.gateway_tools() as tools:
+                    self.assertEqual(tools, [tool])
+                    self.assertEqual(tool.timeout.total_seconds(), 30)
+            self.assertIn("GATEWAY_CONNECTED loaded_tools=1", "\n".join(logs.output))
+
+    def gateway_event(self, name, result, exception=None):
+        return SimpleNamespace(tool_use={"name": name, "toolUseId": "test-id"}, result=result, exception=exception)
+
+    def test_gateway_preserves_api_and_unwraps_lambda_results(self):
+        for name, data in [("order-tracker___get_order", {"order_id": "ORD-001", "status": "SHIPPED"}),
+                           ("refund-processor___initiate_refund", {"refund_id": "REF-TEST", "status": "APPROVED"})]:
+            hook = agent.GatewayResponseHook([SimpleNamespace(tool_name=name)])
+            raw = data if "get_order" in name else {"statusCode": 200, "body": json.dumps(data)}
+            event = self.gateway_event(name, {"status": "success", "content": [{"text": json.dumps(raw)}]})
+            with self.assertLogs("CSAI_Agent", level="INFO"):
+                hook.after_tool(event)
+            self.assertEqual(json.loads(event.result["content"][0]["text"]), data)
+            self.assertEqual(event.result["status"], "success")
+            self.assertFalse(hook.failures)
+
+    def test_gateway_errors_empty_malformed_and_http_failure(self):
+        name = "order-tracker___get_order"
+        for raw in [{"status": "error", "content": [{"text": "SECRET"}]},
+                    {"status": "success", "isError": True, "content": []},
+                    {"status": "success", "content": []},
+                    {"status": "success", "content": [{"text": " "}]},
+                    {"status": "success", "content": [{"text": "{}"}]},
+                    {"status": "success", "content": [{"text": "null"}]},
+                    {"status": "success", "content": [{"text": "malformed SECRET"}]},
+                    {"status": "success", "structuredContent": {"statusCode": 500, "body": "SECRET"}},
+                    {"status": "success", "structuredContent": {"error": "SECRET"}}]:
+            with self.subTest(raw=raw):
+                hook = agent.GatewayResponseHook([SimpleNamespace(tool_name=name)])
+                event = self.gateway_event(name, raw)
+                with self.assertLogs("CSAI_Agent"):
+                    hook.after_tool(event)
+                self.assertEqual(event.result["status"], "error")
+                self.assertIn("try again", event.result["content"][0]["text"])
+                self.assertNotIn("SECRET", json.dumps(event.result))
+                final = message("assistant", "Invented success")
+                state = SimpleNamespace(messages=[message("user", "Track my order"), final])
+                hook.finalize_failure(SimpleNamespace(agent=state, result=SimpleNamespace(message=final)))
+                self.assertEqual(agent._text(final), agent.GATEWAY_UNAVAILABLE)
+
+    def test_refund_exception_reports_uncertain_outcome_without_retry(self):
+        name = "refund-processor___initiate_refund"
+        hook = agent.GatewayResponseHook([SimpleNamespace(tool_name=name)])
+        event = self.gateway_event(name, {}, TimeoutError("SECRET"))
+        with self.assertLogs("CSAI_Agent"):
+            hook.after_tool(event)
+        self.assertIn("before retrying", agent._text(event.result))
+        self.assertIn("duplicate refund", agent._text(event.result))
+        self.assertNotIn("SECRET", agent._text(event.result))
+        self.assertFalse(hasattr(event, "retry"))
+
+    def test_gateway_failure_saved_as_customer_response(self):
+        name = "order-tracker___get_order"
+        hook = agent.GatewayResponseHook([SimpleNamespace(tool_name=name)])
+        hook.failures[name] = agent.GATEWAY_UNAVAILABLE
+        final = message("assistant", "Invented success")
+        state = SimpleNamespace(messages=[message("user", "Track order"), final])
+        event = SimpleNamespace(agent=state, result=SimpleNamespace(message=final))
+        hook.finalize_failure(event)
+        client = self.memory()
+        agent.MemoryHook("CUST-123", "session", client, "memory").save_support_interaction(event)
+        self.assertEqual(client.create_event.call_args.kwargs["messages"][-1],
+                         (agent.GATEWAY_UNAVAILABLE, "ASSISTANT"))
+
+    def test_gateway_error_takes_precedence_over_discount_rendering(self):
+        guard = agent.GatewayResponseHook([])
+        guard.failures["refund"] = "Refund outcome unconfirmed. Check status before retrying."
+        evidence = agent.ToolEvidenceHook(guard)
+        evidence.discount = self.calculate(4250, "Gold", 150)
+        final = message("assistant", "Incorrect success claim")
+        event = SimpleNamespace(agent=SimpleNamespace(messages=[final]), result=SimpleNamespace(message=final))
+        guard.finalize_failure(event)
+        evidence.finalize_calculation(event)
+        self.assertIn("unconfirmed", agent._text(final))
+
+    def test_real_sdk_hook_mutation_and_evidence_order(self):
+        name = "refund-processor___initiate_refund"
+        guard = agent.GatewayResponseHook([SimpleNamespace(tool_name=name)])
+        evidence = agent.ToolEvidenceHook(guard)
+        registry = agent.HookRegistry()
+        evidence.register_hooks(registry)
+        guard.register_hooks(registry)
+        event = agent.AfterToolCallEvent(agent=SimpleNamespace(), selected_tool=None,
+            tool_use={"name": name, "toolUseId": "sdk-id", "input": {}}, invocation_state={},
+            result={"status": "success", "content": [{"text": json.dumps({"statusCode": 200,
+                    "body": json.dumps({"refund_id": "REF-TEST", "status": "APPROVED"})})}]})
+        with patch.dict(os.environ, PROJECT_EVIDENCE="true"), self.assertLogs("CSAI_Agent", level="INFO") as logs:
+            registry.invoke_callbacks(event)
+        self.assertEqual(json.loads(event.result["content"][0]["text"])["refund_id"], "REF-TEST")
+        trace = "\n".join(logs.output)
+        self.assertIn("GATEWAY_TOOL_SUCCESS", trace)
+        self.assertIn("TOOL_EVIDENCE", trace)
+        self.assertNotIn("statusCode", trace)
 
 if __name__ == "__main__":
     unittest.main()

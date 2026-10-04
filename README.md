@@ -7,10 +7,16 @@ See [starter provenance](ATTRIBUTION.md) and [original instructions](docs/udacit
 
 ## Current validation
 
-The implementation passes 13 offline integration-boundary tests. All six required
-scenarios also passed live in Udacity's AWS sandbox, with conversation output and
-CloudWatch tool traces. The deployed source is commit `8833789`.
-See [evidence](evidence/README.md) for the latest status.
+The revised implementation passes 21 offline tests. All six required scenarios
+were verified again in Udacity's AWS sandbox on October 4, 2026, with actual
+`agentcore invoke` commands, responses, terminal screenshots, and CloudWatch traces.
+The deployed artifact's `main.py` matches this workspace; see
+[source verification](evidence/source-verification.json).
+
+**Resubmission review:** start with [the reviewer response](docs/resubmission.md),
+[direct Runtime invocation screenshot](evidence/screenshots/runtime-invoke-proof.jpg),
+and [successful API/Lambda Gateway results](evidence/gateway-success.json).
+See [all evidence](evidence/README.md) for the six scenarios and intentional outage test.
 
 ## Local setup and tests
 
@@ -65,10 +71,20 @@ Interpreter failures explicitly return a tier-only estimate without redemption o
 Completed calculation responses use an invocation hook to render the tool's exact
 amounts and persist that same text. This prevents model paraphrases from changing money.
 
+Gateway connection/discovery failures produce diagnostic logs and a safe service
+message. Tool responses are validated before reaching the model; Lambda HTTP-style
+envelopes are unwrapped, and empty, malformed, MCP, or backend errors are handled.
+An interrupted refund is reported as unconfirmed, with a status check advised before
+retrying. Failure messages also take precedence over calculator rendering.
+
 ## Review and costs
 
-The approved project spending limit is $15; reported AWS costs can lag. Resources
-are to remain available for user review, so charges can continue afterward.
+The approved project spending limit is $15; reported AWS costs can lag. The latest
+checkpoint reports about $0.17 for the sandbox account. The old deployment was
+torn down at the user's request; the revised deployment is available for review.
+Resources can continue accruing charges; see [inventory](docs/resource-inventory.md)
+and [costs and teardown](docs/costs-and-teardown.md).
 The review bundle is `submission.zip`, created with `python scripts/package_submission.py`.
 It includes sanitized evidence, the rubric checklist, and a 340-word reflection.
-No Udacity submission has been made. Follow the teardown checklist after review.
+The first submission required updates. This revision is prepared for the user's
+review and resubmission; it has not been submitted automatically.

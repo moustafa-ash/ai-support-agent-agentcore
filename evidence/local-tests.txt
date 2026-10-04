@@ -1,23 +1,35 @@
-Validation: LOCAL OFFLINE ONLY
-Date: 2026-10-04 (Africa/Cairo)
-Command: starter/.venv/Scripts/python.exe -m unittest discover -s tests -v
-Result: 13 tests passed (last run after exact financial-response rendering change).
+test_entrypoint_validation_and_missing_config (test_agent.IntegrationTests.test_entrypoint_validation_and_missing_config) ... ok
+test_entrypoint_wiring_success_and_cleanup (test_agent.IntegrationTests.test_entrypoint_wiring_success_and_cleanup) ... INFO:CSAI_Agent:GATEWAY_CONNECTED loaded_tools=1
+ok
+test_fallback_and_invalid_input (test_agent.IntegrationTests.test_fallback_and_invalid_input) ... ERROR:CSAI_Agent:Code Interpreter unavailable: RuntimeError
+ok
+test_final_response_preserves_tool_amounts_and_memory (test_agent.IntegrationTests.test_final_response_preserves_tool_amounts_and_memory) ... WARNING:CSAI_Agent:MEMORY_SAVED completed_turn=true
+ok
+test_gateway_discovery_empty_and_success_logs (test_agent.IntegrationTests.test_gateway_discovery_empty_and_success_logs) ... ok
+test_gateway_error_takes_precedence_over_discount_rendering (test_agent.IntegrationTests.test_gateway_error_takes_precedence_over_discount_rendering) ... ok
+test_gateway_errors_empty_malformed_and_http_failure (test_agent.IntegrationTests.test_gateway_errors_empty_malformed_and_http_failure) ... ok
+test_gateway_failure_saved_as_customer_response (test_agent.IntegrationTests.test_gateway_failure_saved_as_customer_response) ... WARNING:CSAI_Agent:MEMORY_SAVED completed_turn=true
+ok
+test_gateway_preserves_api_and_unwraps_lambda_results (test_agent.IntegrationTests.test_gateway_preserves_api_and_unwraps_lambda_results) ... ok
+test_gateway_setup_failures_are_safe_visible_and_close (test_agent.IntegrationTests.test_gateway_setup_failures_are_safe_visible_and_close) ... ok
+test_gold_required_example (test_agent.IntegrationTests.test_gold_required_example) ... ok
+test_memory_actor_isolation_and_tool_results_ignored (test_agent.IntegrationTests.test_memory_actor_isolation_and_tool_results_ignored) ... WARNING:CSAI_Agent:MEMORY_RETRIEVED records=0
+WARNING:CSAI_Agent:MEMORY_RETRIEVED records=0
+ok
+test_memory_retrieves_all_and_persists_original (test_agent.IntegrationTests.test_memory_retrieves_all_and_persists_original) ... WARNING:CSAI_Agent:MEMORY_RETRIEVED records=2
+WARNING:CSAI_Agent:MEMORY_SAVED completed_turn=true
+ok
+test_namespaces_current_legacy_and_empty (test_agent.IntegrationTests.test_namespaces_current_legacy_and_empty) ... ok
+test_rag_guard_empty_join_and_failure (test_agent.IntegrationTests.test_rag_guard_empty_join_and_failure) ... ERROR:CSAI_Agent:Knowledge base retrieval failed: RuntimeError
+ok
+test_real_sdk_hook_mutation_and_evidence_order (test_agent.IntegrationTests.test_real_sdk_hook_mutation_and_evidence_order) ... ok
+test_redemption_cap_zero_and_earning_rates (test_agent.IntegrationTests.test_redemption_cap_zero_and_earning_rates) ... ok
+test_refund_exception_reports_uncertain_outcome_without_retry (test_agent.IntegrationTests.test_refund_exception_reports_uncertain_outcome_without_retry) ... ok
+test_sandbox_stream_and_cleanup (test_agent.IntegrationTests.test_sandbox_stream_and_cleanup) ... ok
+test_policy_contains_scoped_interpreter_and_existing_integrations (test_permissions.PermissionTests.test_policy_contains_scoped_interpreter_and_existing_integrations) ... ok
+test_private_settings_override_environment_assignments (test_permissions.PermissionTests.test_private_settings_override_environment_assignments) ... ok
 
-Verified: request validation, entrypoint wiring and cleanup, current/legacy memory
-namespaces, both strategies, actor isolation, original-query persistence, tool-result
-exclusion, RAG guard/join/empty/error handling, exact Gold arithmetic, redemption
-boundaries, category earning rates, sandbox response parsing and context cleanup,
-tier-only fallback, invalid inputs, private resource settings, scoped permission policy,
-and exact financial-response rendering with matching memory persistence.
+----------------------------------------------------------------------
+Ran 21 tests in 0.110s
 
-AWS, Bedrock model, and MCP boundaries are mocked. Generated Python calculation
-code is executed locally. No claim of cloud deployment or live service invocation
-is made by this test evidence.
-
-Runtime: Python 3.13.13
-SDK versions from locked environment:
-bedrock-agentcore 1.24.0
-bedrock-agentcore-starter-toolkit 0.3.13
-strands-agents 1.57.2
-strands-agents-tools 0.8.9
-boto3 1.43.108
+OK

@@ -1,0 +1,12 @@
+{
+  "captured_utc": "2026-10-04T11:33:43.483664+00:00",
+  "runtime_version": "2",
+  "runtime": "PYTHON_3_13",
+  "entry_point": [
+    "main.py"
+  ],
+  "workspace_main_sha256": "7d51277c02f23271d5598c61ec96f608914b3a8cf96be17ba6bdf6d05a70a90f",
+  "deployed_main_sha256": "7d51277c02f23271d5598c61ec96f608914b3a8cf96be17ba6bdf6d05a70a90f",
+  "deployed_source_matches": true,
+  "working_gateway_restored": true
+}

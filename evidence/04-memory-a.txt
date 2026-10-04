@@ -1,13 +1,15 @@
-Payload: {"prompt": "Hi, I am Jane. I prefer concise responses.", "customer_id": "CUST-123", "session_id": "s-A-final"}
-CLI exit code: 0
+Captured UTC: 2026-10-04T11:25:41.582209+00:00
+$ agentcore invoke '{"prompt": "Hi, I am Jane. I prefer concise responses.", "customer_id": "CUST-123", "session_id": "s-A-review2"}'
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
-│ Request ID: eebc9735-3f41-4269-872d-eb304e3bd842                                                                                                                                                               │
+│ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
+│ Request ID: b919a18e-d181-4722-b2cb-8cb3f044bc99                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
-│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
-│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
 │ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
-Hello Jane! I have your Gold membership and order details ready. How can I assist you today?
+Hello Jane! I'll keep my responses concise. How can I assist you with the course store today?
+
+CLI exit code: 0

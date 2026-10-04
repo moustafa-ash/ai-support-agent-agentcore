@@ -1,14 +1,12 @@
 {
-  "checked_at_utc": "2026-10-03T21:06:39.731780+00:00",
+  "captured_utc": "2026-10-04T11:33:43.483664+00:00",
   "region": "us-east-1",
-  "status": {
-    "runtime": "READY",
-    "gateway": "READY",
-    "order_target": "READY",
-    "refund_target": "READY",
-    "knowledge_base": "ACTIVE",
-    "memory": "ACTIVE",
-    "order_tracker": "Active",
-    "refund_processor": "Active"
-  }
+  "runtime": "READY",
+  "gateway": "READY",
+  "memory": "ACTIVE",
+  "knowledge_base": "ACTIVE",
+  "order_target": "READY",
+  "refund_target": "READY",
+  "order_tracker": "Active",
+  "refund_processor": "Active"
 }

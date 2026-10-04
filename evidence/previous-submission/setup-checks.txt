@@ -1,0 +1,4 @@
+AWS_IDENTITY_VERIFIED
+GATEWAY_TOOLS ["order-tracker___get_customer", "order-tracker___get_customer_orders", "order-tracker___get_order", "refund-processor___check_refund_status", "refund-processor___get_return_label", "refund-processor___initiate_refund"]
+CATALOG_RETRIEVAL_VERIFIED
+MEMORY_ACTIVE

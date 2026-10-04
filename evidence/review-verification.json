@@ -1,0 +1,9 @@
+{
+  "all_seven_cli_invocations_exit_zero": true,
+  "all_six_scenarios_have_nonempty_responses": true,
+  "api_order_and_lambda_refund_verified": true,
+  "positive_gateway_calls": 4,
+  "memory_session_gap_seconds": 576.643033,
+  "gold_example_exact": true,
+  "note": "Structural checks supplement human review; local fixtures cannot establish cloud evidence."
+}

@@ -1,7 +1,9 @@
 # Retained sandbox inventory
 
-Region: us-east-1. Readiness was checked at 2026-10-03 21:06 UTC; see
-`evidence/resource-status.json`. No teardown was run.
+Region: us-east-1. The revised deployment was checked on October 4, 2026; see
+the exact UTC timestamp in `evidence/resource-status.json`. The previous deployment
+was deleted and the lab terminated at the user's request on October 3 UTC.
+This inventory describes the new deployment created for the resubmission review.
 
 | Resource | Quantity | Status / purpose |
 |---|---:|---|

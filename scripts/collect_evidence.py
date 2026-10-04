@@ -20,10 +20,19 @@ private = root / "private"
 private.mkdir(exist_ok=True)
 (private / "cloudwatch-events.json").write_text(json.dumps(events))
 selected = []
+outage = []
+start_file = root / "private/live/suite-start-ms.txt"
+suite_start = int(start_file.read_text()) if start_file.exists() else 0
 for event in events:
     message = event["message"]
     if "TOOL_EVIDENCE" in message or "MEMORY_" in message or "CSAI_Agent" in message:
-        selected.append(json.dumps({"timestamp_utc": datetime.fromtimestamp(event["timestamp"] / 1000,
-            timezone.utc).isoformat(), "message": sanitize(message)}))
+        line = json.dumps({"timestamp_utc": datetime.fromtimestamp(event["timestamp"] / 1000,
+            timezone.utc).isoformat(), "message": sanitize(message)})
+        if event["timestamp"] >= suite_start:
+            selected.append(line)
+        else:
+            outage.append(line)
 (root / "evidence/tool-events.jsonl").write_text("\n".join(selected) + "\n")
+if outage:
+    (root / "evidence/gateway-outage-events.jsonl").write_text("\n".join(outage) + "\n")
 print(f"Collected {len(selected)} actual service log events; review before publication.")

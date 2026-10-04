@@ -1,6 +1,32 @@
-[
+{
+  "ResultsByTime": [
     {
-        "Amount": "0",
-        "Unit": "USD"
+      "TimePeriod": {
+        "Start": "2026-10-01",
+        "End": "2026-10-05"
+      },
+      "Total": {
+        "UnblendedCost": {
+          "Amount": "0.1731138627",
+          "Unit": "USD"
+        }
+      },
+      "Groups": [],
+      "Estimated": true
     }
-]
+  ],
+  "DimensionValueAttributes": [],
+  "ResponseMetadata": {
+    "RequestId": "2681e697-a568-4e9f-9d66-1b12fd47b389",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "date": "Sun, 04 Oct 2026 11:33:49 GMT",
+      "content-type": "application/x-amz-json-1.1",
+      "content-length": "200",
+      "connection": "keep-alive",
+      "x-amzn-requestid": "2681e697-a568-4e9f-9d66-1b12fd47b389",
+      "cache-control": "no-cache"
+    },
+    "RetryAttempts": 0
+  }
+}

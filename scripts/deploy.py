@@ -3,6 +3,11 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import argparse
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--gateway-url", help="Temporary override for an explicit Gateway outage test; does not change saved settings")
+args = parser.parse_args()
 
 root = Path(__file__).resolve().parents[1] / "starter"
 settings = json.loads((root / "runtime_settings.json").read_text())
@@ -10,6 +15,7 @@ command = ["agentcore", "deploy"]
 for key in ("REGION", "GATEWAY_URL", "KB_ID", "MEMORY_ID"):
     if not settings.get(key):
         sys.exit(f"Missing {key} in private runtime_settings.json")
-    command += ["--env", f"{key}={settings[key]}"]
+    value = args.gateway_url if key == "GATEWAY_URL" and args.gateway_url else settings[key]
+    command += ["--env", f"{key}={value}"]
 command += ["--env", "PROJECT_EVIDENCE=true"]
 sys.exit(subprocess.run(command, cwd=root).returncode)

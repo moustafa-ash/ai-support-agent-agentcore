@@ -1,8 +1,8 @@
-Captured UTC: 2026-10-04T11:25:17.435481+00:00
-$ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "CUST-123", "session_id": "t1-review2"}'
+Captured UTC: 2026-10-04T11:27:22.870525+00:00
+$ agentcore invoke '{"prompt": "Do you remember my name and communication preference?", "customer_id": "CUST-123", "session_id": "s-B-review2"}'
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
 │ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
-│ Request ID: 294a81ee-adce-49b4-bf77-3f2b6280617c                                                                                                                                                               │
+│ Request ID: e7d3072e-d5b7-4cbd-a7d7-995494f6a85f                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
 │ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
 │       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
@@ -10,18 +10,17 @@ $ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "C
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
-I can see the details for order ORD-001:
+Hello! I don't have access to your name or communication preference in this context, but I'm here to help with your order and refund needs.
 
-**Order Status:** SHIPPED
-**Customer:** CUST-123 (you)
-**Items:**
-- Wireless Headphones Pro (1 x $89.99)
+From the customer context provided, I can see you have:
+- An active order ORD-001 for Wireless Headphones Pro ($89.99)
+- A processed refund request for ORD-002 (Kindle Paperwhite) with refund ID REF-U8OQPRXQ for $139.99
 
-**Total:** $89.99
-**Tracking Number:** TRK987654321
-**Carrier:** UPS
-**Estimated Delivery:** October 6, 2026
+Would you like me to:
+1. Check the status of your ORD-002 refund (REF-U8OQPRXQ)?
+2. Assist with anything regarding your ORD-001 Wireless Headphones Pro order?
+3. Help with anything else related to your account?
 
-Your order is currently in transit and expected to be delivered by October 6th. Would you like me to help you with anything else regarding this order?
+Please let me know what you'd like to discuss, and I'll assist you accordingly.
 
 CLI exit code: 0

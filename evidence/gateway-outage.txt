@@ -1,8 +1,9 @@
-Captured UTC: 2026-10-04T11:25:17.435481+00:00
-$ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "CUST-123", "session_id": "t1-review2"}'
+Intentional outage: Runtime configured with https://example.invalid/mcp
+Captured UTC: 2026-10-04T11:24:16.114431+00:00
+$ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "CUST-123", "session_id": "intentional-gateway-outage"}'
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
-│ Request ID: 294a81ee-adce-49b4-bf77-3f2b6280617c                                                                                                                                                               │
+│ Session: a668219c-991b-4eb2-81c2-f35863d1a9d3                                                                                                                                                                  │
+│ Request ID: 6aa328dd-e15c-405f-b3d5-87e86b8bc38d                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
 │ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
 │       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
@@ -10,18 +11,6 @@ $ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "C
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
-I can see the details for order ORD-001:
-
-**Order Status:** SHIPPED
-**Customer:** CUST-123 (you)
-**Items:**
-- Wireless Headphones Pro (1 x $89.99)
-
-**Total:** $89.99
-**Tracking Number:** TRK987654321
-**Carrier:** UPS
-**Estimated Delivery:** October 6, 2026
-
-Your order is currently in transit and expected to be delivered by October 6th. Would you like me to help you with anything else regarding this order?
+I'm having trouble reaching the order/refund service right now. Please try again in a moment. I cannot verify an order or confirm a refund while it is unavailable.
 
 CLI exit code: 0

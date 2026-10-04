@@ -1,13 +1,17 @@
-Payload: {"prompt": "Go to https://www.udacity.com and tell me the page title.", "customer_id": "CUST-123", "session_id": "t6-final"}
-CLI exit code: 0
+Captured UTC: 2026-10-04T11:28:00.219264+00:00
+$ agentcore invoke '{"prompt": "Go to https://www.udacity.com and tell me the page title.", "customer_id": "CUST-123", "session_id": "t6-review2"}'
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
-│ Request ID: ba8fb28f-a1bf-422f-85c7-89df60a4d99a                                                                                                                                                               │
+│ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
+│ Request ID: 86c78a5e-75d1-459e-8381-afdec1a1c455                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
-│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
-│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
 │ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
-The page title of https://www.udacity.com is **Learn the Latest Tech Skills; Advance Your Career | Udacity**.
+The page title of https://www.udacity.com is:
+
+**Learn the Latest Tech Skills; Advance Your Career | Udacity**
+
+CLI exit code: 0

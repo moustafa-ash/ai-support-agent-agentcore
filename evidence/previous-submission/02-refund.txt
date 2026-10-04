@@ -1,27 +1,13 @@
-Captured UTC: 2026-10-04T11:25:17.435481+00:00
-$ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "CUST-123", "session_id": "t1-review2"}'
+Payload: {"prompt": "I want to return my Kindle Paperwhite (ORD-002). Please initiate a refund.", "customer_id": "CUST-123", "session_id": "t2-final"}
+CLI exit code: 0
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
-│ Request ID: 294a81ee-adce-49b4-bf77-3f2b6280617c                                                                                                                                                               │
+│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
+│ Request ID: 348c62cd-28c6-401c-a73c-c44e6d48d3de                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
-│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
-│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
 │ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
-I can see the details for order ORD-001:
-
-**Order Status:** SHIPPED
-**Customer:** CUST-123 (you)
-**Items:**
-- Wireless Headphones Pro (1 x $89.99)
-
-**Total:** $89.99
-**Tracking Number:** TRK987654321
-**Carrier:** UPS
-**Estimated Delivery:** October 6, 2026
-
-Your order is currently in transit and expected to be delivered by October 6th. Would you like me to help you with anything else regarding this order?
-
-CLI exit code: 0
+Your refund for the Kindle Paperwhite (Order #ORD-002) has been approved. A credit of $139.99 will appear on your account within 3-5 business days. Your refund ID is **REF-ZQ63VYW7**.

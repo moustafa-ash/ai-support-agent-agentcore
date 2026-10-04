@@ -1,13 +1,15 @@
-Payload: {"prompt": "Do you remember my name and communication preference?", "customer_id": "CUST-123", "session_id": "s-B-final"}
-CLI exit code: 0
+Captured UTC: 2026-10-04T11:35:18.225242+00:00
+$ agentcore invoke '{"prompt": "Do you remember my name and communication preference?", "customer_id": "CUST-123", "session_id": "s-B-review3"}'
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
-│ Request ID: 07e5946f-5592-4eaf-9864-8fd64cb22602                                                                                                                                                               │
+│ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
+│ Request ID: 8a7396eb-cf94-4fbd-952d-4c3986146c4f                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
-│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
-│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
 │ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
 Yes, Jane. I remember you prefer concise responses.
+
+CLI exit code: 0

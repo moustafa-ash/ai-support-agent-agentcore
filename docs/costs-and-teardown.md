@@ -1,7 +1,7 @@
 # Costs and teardown
 
 Approved execution budget: $15 for this project. Use only Udacity's sandbox,
-us-east-1, one tiny product catalog, and the seven invocations covering six tests.
+us-east-1, one tiny product catalog, and a small set of rubric/robustness invocations.
 No load testing, OpenSearch collection, provisioned model capacity, or EC2 runtime.
 
 AWS reports [managed KB storage](https://aws.amazon.com/bedrock/pricing/) at $5/GB/month
@@ -15,16 +15,18 @@ Check available lab allocation and costs before provisioning, after deployment,
 and after tests. Billing may lag. Record inaccessible cost reporting as unavailable,
 not zero. Stop new work if estimated additional spend would exceed the $15 limit.
 
-The actual Cost Explorer checkpoints before provisioning, after deployment, and
-after testing all returned $0 USD for the sandbox account in the October billing
-window; the raw sanitized responses are in `evidence/cost-*.json`. These are
-reported account costs, not proof that the project accrued no charges. Billing
-reporting lags, and a remaining lab allocation was not exposed by that response.
-The tiny catalog, bounded compute sessions, and small conversation test run were
-kept within the course's below-$15 estimate. No load testing was performed.
+The October 4 resubmission baseline and post-test Cost Explorer checkpoints
+reported approximately $0.173114 for the sandbox account; the raw responses are
+`evidence/cost-baseline.json` and `evidence/cost-after-tests.json`. These are reported
+account costs, not a project-specific final invoice. Billing can lag. The previous
+submission's zero-dollar checkpoints are archived in `evidence/previous-submission/`.
+The revised run used a tiny catalog, bounded sessions, one intentional deployed
+Gateway outage, seven scenario calls, a delayed recall retry, and one direct Runtime
+proof call. No load testing was performed.
 Check the account again after billing catches up and before additional usage.
 The $15 limit is a working stop condition, not an automatically enforced AWS cap.
-Retained resources can incur further charges; teardown awaits the user's request.
+The previous deployment was torn down as requested. The new review deployment can
+incur further charges; use its current inventory for any subsequent teardown.
 
 ## After user review
 

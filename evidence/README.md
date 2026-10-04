@@ -1,34 +1,57 @@
-# Verified evidence
+# Resubmission evidence — October 4, 2026
 
-Local: 13 offline tests passed. AWS/model/MCP boundaries are mocked in those tests;
-generated calculator code executes locally. See `local-tests.txt`.
+Start with [the reviewer response](../docs/resubmission.md). The revised source
+passes **21 offline tests** and all **six scenarios were verified live** in the
+Udacity sandbox. Local tests mock AWS/model/MCP boundaries; hosted outputs below
+come from the deployed Runtime and actual CloudWatch tool events.
 
-Hosted: all six scenarios passed in Udacity's sandbox, us-east-1. Final deployed
-source: `8833789`. Final conversations were collected on 2026-10-03 UTC
-(2026-10-04 in Cairo). These are real CLI outputs, not fixtures.
+## The two requested corrections
 
-| Scenario | Conversation | Actual service evidence |
-|---|---|---|
-| Order tracking | `01-order.txt`: shipped, UPS, TRK987654321, October 5 | API-backed `order-tracker___get_order` succeeds in initial integration verification |
-| Refund | `02-refund.txt`: REF-ZQ63VYW7, approved, $139.99, 3–5 business days | Lambda-backed `refund-processor___initiate_refund` succeeds |
-| RAG | `03-rag.txt`: Platinum shipping, 15%, priority support | `search_knowledge_base` returns real managed-KB catalog chunks |
-| Memory | `04-memory-a.txt`, `04-memory-b.txt`: Jane and concise preference | Retrieval and completed-turn save logs; fresh Agent instances with `s-A-final` and `s-B-final` payload sessions, separated by 90 seconds |
-| Discount | `05-discount.txt`: 4,000 / 10% ($11) / $99 / 349 | `calculate_loyalty_discount` returns `calculation_mode=code_interpreter`, 99 earned points |
-| Browser | `06-browser.txt`: Learn the Latest Tech Skills; Advance Your Career \| Udacity | Browser evaluation returns that exact live document title, followed by close |
+- **Deployment proof:** [direct terminal invocation screenshot](screenshots/runtime-invoke-proof.jpg)
+  shows the actual `uv run agentcore invoke` command, successful order response,
+  and zero pipeline exit code. [Complete sanitized stdout](runtime-invoke-proof.txt)
+  is also included. A display filter omits private deployment metadata from the terminal.
+- **Gateway robustness:** [successful structured results](gateway-success.json)
+  contain four nonempty, successful Gateway calls, including the API order target
+  and Lambda refund target. [Actual service traces](tool-events.jsonl) include
+  discovery success and validated tool responses.
+- **Intentional outage:** [deployed outage transcript](gateway-outage.txt),
+  [screenshot](screenshots/gateway-outage.jpg), and [diagnostic logs](gateway-outage-events.jsonl)
+  show a safe message with a dummy Gateway URL. This is negative-test evidence.
+  The working endpoint was restored before the successful scenario suite.
 
-`tool-events.jsonl` contains real, sanitized CloudWatch traces from initial checks
-and the final suite. Gateway discovery is in `setup-checks.txt`; retained service
-readiness is in `resource-status.json`. Final order answers may reuse extracted
-fictional order facts; the initial trace independently proves the API integration.
-Production order status should always be refreshed from an authorized backend.
+## Six successful scenarios
 
-Earlier unsuccessful attempts are retained in `attempts/`: the first memory recall
-preceded extraction, and Nova's discount paraphrases changed dollar amounts.
-The final hook renders exact calculator values. Initial HTML-based browsing did
-not establish the title; the final run uses `document.title`. A navigation load-state
-timeout occurred even in the final run, but the loaded document returned its title
-successfully. Do not treat those earlier attempts as passed evidence.
+Each scenario transcript includes the exact executed `agentcore invoke` command,
+UTC timestamp, full sanitized CLI output, and exit code. Scenario screenshots
+show genuine saved transcripts through `scripts/show_evidence.py`; they are
+separate from the direct terminal invocation screenshot above.
 
-All three cost checkpoints report $0, with AWS billing lag possible. Detailed
-account/resource settings stay in ignored private files. Credentials are excluded.
-Resources remain available for review; no Udacity submission has been made.
+| Scenario | Actual CLI output | Screenshot | Result |
+|---|---|---|---|
+| Order | [01-order.txt](01-order.txt) | [Order](screenshots/01-order.jpg) | ORD-001 SHIPPED; UPS, TRK987654321; October 6 delivery |
+| Refund | [02-refund.txt](02-refund.txt) | [Refund](screenshots/02-refund.jpg) | REF-U8OQPRXQ APPROVED; $139.99, 3–5 business days |
+| RAG | [03-rag.txt](03-rag.txt) | [Platinum](screenshots/03-rag.jpg) | Same-day shipping, 15%, priority support; actual retrieval |
+| Memory | [Introduction](04-memory-a.txt), [recall](04-memory-b.txt) | [Session A](screenshots/04-memory-a.jpg), [session B](screenshots/04-memory-b.jpg) | Jane/concise; s-A-review2 and s-B-review3, same customer, about 577 seconds apart |
+| Interpreter | [05-discount.txt](05-discount.txt) | [Gold](screenshots/05-discount.jpg) | 4,000 points, 10% ($11), $99 final, 349 remaining; 99 earned |
+| Browser | [06-browser.txt](06-browser.txt) | [Live title](screenshots/06-browser.jpg) | Learn the Latest Tech Skills; Advance Your Career \| Udacity |
+
+[Review verification](review-verification.json) cross-checks the commands,
+responses, memory timing, discount values, and Gateway results. It supplements
+human review. [Source verification](source-verification.json) compares `main.py`
+inside the deployed S3 artifact against the workspace and confirms the working
+Gateway is restored. [Readiness](resource-status.json) and [setup](setup-checks.txt)
+record the live integrations. [Local tests](local-tests.txt) are explicitly offline.
+
+## Earlier attempts and costs
+
+The first resubmission recall was too early and failed to retrieve Jane's
+name/preference. It is retained under `attempts/04-memory-before-extraction-review2.*`;
+the later successful recall above replaces it as current evidence. Other earlier
+unsuccessful runs remain in `attempts/`. The first submission's historical outputs
+and zero-dollar cost checkpoints are in `previous-submission/`.
+
+The latest baseline and post-test checkpoints report about $0.17 for the sandbox
+account. Billing may lag. Identifiers, endpoints, credentials, and operational
+configuration are excluded from the public bundle. The previous deployment was
+deleted as requested; the revised deployment is available for review.

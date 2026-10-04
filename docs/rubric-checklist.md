@@ -2,15 +2,15 @@
 
 | Criterion | Implementation | Hosted evidence |
 |---|---|---|
-| Runtime | Module-level app, async decorated invoke, app.run | READY; successful live invocations |
-| MCP integrations | Gateway discovery; API and Lambda targets | Six registered tools; successful order and refund traces |
+| Runtime | Module-level app, async decorated invoke, app.run | READY; direct `agentcore invoke` screenshot; matching deployed artifact |
+| MCP integrations | Gateway discovery; API and Lambda targets; safe failure handling and response validation | Six registered tools; four successful, nonempty Gateway calls; separate deployed outage proof |
 | RAG | Decorated tool, Retrieve API, managed search, guard, joined chunks | Platinum response and actual retrieved catalog chunks |
-| Cross-session memory | Both strategies, namespace compatibility, actor-scoped retrieval and original turn persistence | Jane/concise recalled in a distinct payload session after a 90-second wait |
+| Cross-session memory | Both strategies, namespace compatibility, actor-scoped retrieval and original turn persistence | Jane/concise recalled in a distinct payload session about 577 seconds after introduction |
 | Code Interpreter | Decimal arithmetic, executeCode/clearContext, exact response rendering, labeled fallback | Actual sandbox result: 4,000 / 10% / $99 / 349 |
 | Browser | Regional AgentCoreBrowser, bounded timeout, document.title, cleanup | Live Udacity title evaluation and browser-close trace |
 | Reflection | 340-word review draft with design, challenge, production example | Ready for user review |
 
-Local verification: 13 offline tests passed. Provided Lambda functions, refund
+Local verification: 21 offline tests passed. Provided Lambda functions, refund
 schema and product catalog are unchanged from the upstream starter.
 
 ## Required conversation evidence

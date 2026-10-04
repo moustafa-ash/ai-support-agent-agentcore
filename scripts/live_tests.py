@@ -9,6 +9,8 @@ from pathlib import Path
 import re
 import subprocess
 import time
+import shlex
+from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 SCENARIOS = [
@@ -45,6 +47,9 @@ def main():
     public = ROOT / "evidence"
     private.mkdir(parents=True, exist_ok=True)
     public.mkdir(exist_ok=True)
+    suite_start = private / "suite-start-ms.txt"
+    if not args.only or not suite_start.exists():
+        suite_start.write_text(str(int(time.time() * 1000)))
     for name, prompt, session in SCENARIOS:
         if args.only and name not in args.only:
             continue
@@ -54,11 +59,16 @@ def main():
         session += args.session_suffix
         payload = dict(prompt=prompt, customer_id="CUST-123", session_id=session)
         print("Running " + name, flush=True)
-        result = subprocess.run(["agentcore", "invoke", json.dumps(payload)], cwd=ROOT / "starter",
+        command = ["agentcore", "invoke", json.dumps(payload)]
+        command_text = shlex.join(command)
+        print("$ " + command_text, flush=True)
+        result = subprocess.run(command, cwd=ROOT / "starter",
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=300)
-        text = "Payload: " + json.dumps(payload) + f"\nCLI exit code: {result.returncode}\n" + result.stdout
+        text = ("Captured UTC: " + datetime.now(timezone.utc).isoformat() + "\n"
+                "$ " + command_text + "\n" + result.stdout + f"\nCLI exit code: {result.returncode}\n")
         (private / (name + ".txt")).write_text(text)
         (public / (name + ".txt")).write_text(sanitize(text))
+        print(sanitize(result.stdout), flush=True)
         print(name + " cli_exit=" + str(result.returncode), flush=True)
         if result.returncode:
             raise RuntimeError("Scenario failed; inspect private output before retrying")

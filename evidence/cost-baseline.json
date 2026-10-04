@@ -1,6 +1,19 @@
-[
-    {
-        "Amount": "0",
-        "Unit": "USD"
-    }
-]
+{
+    "ResultsByTime": [
+        {
+            "TimePeriod": {
+                "Start": "2026-10-01",
+                "End": "2026-10-05"
+            },
+            "Total": {
+                "UnblendedCost": {
+                    "Amount": "0.1731138627",
+                    "Unit": "USD"
+                }
+            },
+            "Groups": [],
+            "Estimated": true
+        }
+    ],
+    "DimensionValueAttributes": []
+}

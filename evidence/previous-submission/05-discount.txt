@@ -1,27 +1,20 @@
-Captured UTC: 2026-10-04T11:25:17.435481+00:00
-$ agentcore invoke '{"prompt": "Can you track order ORD-001?", "customer_id": "CUST-123", "session_id": "t1-review2"}'
+Payload: {"prompt": "I am a Gold member with 4250 points. Calculate my discount on a $150 standard order.", "customer_id": "CUST-123", "session_id": "t5-final"}
+CLI exit code: 0
 ╭─────────────────────────────────────────────────────────────────────────────────────────────── ai_support_agent ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Session: 75cbc8e5-02eb-498f-b7e6-c4371b61ff16                                                                                                                                                                  │
-│ Request ID: 294a81ee-adce-49b4-bf77-3f2b6280617c                                                                                                                                                               │
+│ Session: a84b6517-94f5-4280-8a94-f250dc6e1527                                                                                                                                                                  │
+│ Request ID: 40b813ec-c439-470a-9186-974633576a7f                                                                                                                                                               │
 │ ARN: [AWS resource ARN redacted]                                                                                                                      │
-│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --follow                                                           │
-│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/04/[runtime-logs" --since 1h                                                         │
+│ Logs: aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --follow                                                           │
+│       aws logs tail /aws/bedrock-agentcore/runtimes/[Runtime ID redacted]-DEFAULT --log-stream-name-prefix "2026/10/03/[runtime-logs" --since 1h                                                         │
 │ GenAI Dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#gen-ai-observability/agent-core                                                                                               │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 Response:
-I can see the details for order ORD-001:
-
-**Order Status:** SHIPPED
-**Customer:** CUST-123 (you)
-**Items:**
-- Wireless Headphones Pro (1 x $89.99)
-
-**Total:** $89.99
-**Tracking Number:** TRK987654321
-**Carrier:** UPS
-**Estimated Delivery:** October 6, 2026
-
-Your order is currently in transit and expected to be delivered by October 6th. Would you like me to help you with anything else regarding this order?
-
-CLI exit code: 0
+Calculation mode: code_interpreter
+Points redeemed: 4,000
+Tier discount: 10% ($11.00)
+Final total: $99.00
+Remaining points: 349
+Points discount: $40.00
+Total savings: $51.00
+Points earned on final paid total: 99
